@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart' show required;
 import 'package:flutter/services.dart' show MethodChannel;
 
 class _OnAppLifecycleResumeObserver extends WidgetsBindingObserver {
@@ -35,12 +34,16 @@ class FlutterWebAuth {
   /// [showBrowserChooser] a boolean to always show a browser chooser to the user when he has multiple browser installed,
   /// can be usefull if some browser restriction rules are set by the authentication service).
   static Future<String> authenticate(
-      {@required String url, @required String callbackUrlScheme, bool showBrowserChooser = false}) async {
+      {required String url,
+      required String callbackUrlScheme,
+      bool showBrowserChooser = false,
+      bool? preferEphemeral}) async {
     WidgetsBinding.instance?.removeObserver(_resumedObserver); // safety measure so we never add this observer twice
     WidgetsBinding.instance?.addObserver(_resumedObserver);
     return await _channel.invokeMethod('authenticate', <String, dynamic>{
       'url': url,
       'callbackUrlScheme': callbackUrlScheme,
+      'preferEphemeral': preferEphemeral ?? false,
       'showBrowserChooser': showBrowserChooser,
     }) as String;
   }

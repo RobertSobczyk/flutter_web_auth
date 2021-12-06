@@ -69,7 +69,7 @@ class FlutterWebAuthPlugin(private var context: Context? = null, private var cha
             val intent = CustomTabsIntent.Builder().build()
             intent.intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.intent.putExtra("android.support.customtabs.extra.KEEP_ALIVE", keepAliveIntent)
-            intent.launchUrl(context, url)
+            intent.launchUrl(context!!, url)
           }
         }
         "cleanUpDanglingCalls" -> {
